@@ -5,6 +5,10 @@ import * as THREE from 'three'
 
 // --- Data for our portfolio sections ---
 const portfolioSections = {
+  about: {
+    title: 'About Me',
+    content: "I am a passionate creative developer specializing in interactive 3D web experiences. With a strong foundation in React and Three.js, I love bringing complex ideas to life in the browser.",
+  },
   projects: {
     title: 'Projects',
     content: "Here I would list my best work, with links to live demos and source code. Each project would have a short, impactful description.",
@@ -14,9 +18,9 @@ const portfolioSections = {
     content: "A showcase of my technical abilities: JavaScript (ES6+), React, Three.js, Node.js, GLSL, and more. I love solving complex problems.",
   },
   contact: {
-  title: 'Contact',
-  content: "Let's connect! You can reach me via email at <a href='mailto:vijayvipparthi8030@email.com'>vijayvipparthi8030@email.com</a> or on <a href='https://www.linkedin.com/in/vijay-vipparthi-dev/' target='_blank' rel='noopener noreferrer'>LinkedIn</a>. I'm always open to new opportunities.",
-},
+    title: 'Contact',
+    content: "Let's connect! You can reach me via email at <a href='mailto:vijayvipparthi8030@email.com' style='color: white;'>vijayvipparthi8030@email.com</a> or on <a href='https://www.linkedin.com/in/vijay-vipparthi-dev/' target='_blank' rel='noopener noreferrer' style='color: white;'>LinkedIn</a>. I'm always open to new opportunities.",
+  },
 };
 
 // --- Main 3D Model (Generative Art Core) ---
@@ -25,6 +29,7 @@ function GenerativeCore({ onClick, isPaused }) {
   const [hovered, setHovered] = useState(false)
 
   useFrame((state, delta) => {
+    if (!pointsRef.current) return; // Safety check
     if (!isPaused) {
       pointsRef.current.rotation.y += delta * 0.1
       pointsRef.current.rotation.x += delta * 0.05
@@ -46,43 +51,44 @@ function GenerativeCore({ onClick, isPaused }) {
   )
 }
 
-// --- Satellite Objects with Corrected Label Animation ---
-function Satellite({ position, color, text, onClick, isActive, isPaused }) {
+// --- Satellite Objects with Corrected and Stable Animation ---
+function Satellite({ position, color, text, onClick, isActive, isPaused, orbitRadius = 8, orbitOffset = 0 }) {
   const groupRef = useRef()
   const htmlRef = useRef()
   const [hovered, setHovered] = useState(false)
 
   useFrame((state) => {
+    if (!groupRef.current) return; // Safety check
+
     const homePosition = new THREE.Vector3(...position)
 
     if (!isPaused) {
       const t = state.clock.getElapsedTime() * 0.5
-      groupRef.current.position.x = position[0] * Math.cos(t)
-      groupRef.current.position.z = position[0] * Math.sin(t)
+      // This is the corrected, robust orbit logic
+      groupRef.current.position.x = orbitRadius * Math.cos(t + orbitOffset)
+      groupRef.current.position.y = position[1]
+      groupRef.current.position.z = orbitRadius * Math.sin(t + orbitOffset)
     } 
     else if (isActive) {
       groupRef.current.position.lerp(homePosition, 0.1)
     }
 
-    const targetScale = isActive ? 1.8 : 1.0
+    const targetScale = isActive ? (text === 'About' ? 1.2 : 1.8) : 1.0
     groupRef.current.scale.lerp(new THREE.Vector3(targetScale, targetScale, targetScale), 0.1)
 
     if (htmlRef.current) {
-      const targetFontSize = isActive ? 32 : 14
-      const targetY = isActive ? -400 : -50
-
-      const currentFontSize = parseFloat(htmlRef.current.style.fontSize) || 14
-      const currentTransform = htmlRef.current.style.transform || 'translate(-50%, -50%)'
-      const currentY = parseFloat(currentTransform.split(',')[1]) || -50
-
-      const newFontSize = THREE.MathUtils.lerp(currentFontSize, targetFontSize, 0.1)
-      const newY = THREE.MathUtils.lerp(currentY, targetY, 0.1)
-
+      const targetFontSize = isActive ? 48 : 18
+      const currentFontSize = parseFloat(htmlRef.current.style.fontSize) || 18
+      const newFontSize = THREE.MathUtils.lerp(currentFontSize, targetFontSize, 0.18)
       htmlRef.current.style.fontSize = `${newFontSize}px`
-      htmlRef.current.style.transform = `translate(-50%, ${newY}%)`
+      htmlRef.current.style.fontWeight = isActive ? "bold" : "normal"
+      htmlRef.current.style.textAlign = "center"
+      htmlRef.current.style.textShadow = "0 2px 10px #000, 0 1px 3px #000"
+      htmlRef.current.style.pointerEvents = "none"
     }
   })
 
+  // Place the label 1.1 sphere radii above the sphere, animates naturally
   return (
     <group ref={groupRef} position={position}>
       <Sphere
@@ -93,8 +99,21 @@ function Satellite({ position, color, text, onClick, isActive, isPaused }) {
       >
         <meshStandardMaterial color={color} emissive={hovered ? color : 'black'} roughness={0.2} />
       </Sphere>
-      <Html distanceFactor={12}>
-        <div ref={htmlRef} className="satellite-label" style={{ color: 'white', pointerEvents: 'none', transform: `translate(-50%, -50%)`, whiteSpace: 'nowrap', fontSize: '14px' }}>{text}</div>
+      <Html position={[0, 1.1, 0]} distanceFactor={10}>
+        <div
+          ref={htmlRef}
+          className="satellite-label"
+          style={{
+            color: "white",
+            pointerEvents: "none",
+            transform: "translate(-50%, -50%)",
+            whiteSpace: "nowrap",
+            fontSize: "18px",
+            lineHeight: 1.1
+          }}
+        >
+          {text}
+        </div>
       </Html>
     </group>
   )
@@ -107,7 +126,10 @@ function AnimatedCamera({ activeSection }) {
     const lookAtTarget = new THREE.Vector3()
     const orbitRadius = 8;
 
-    if (activeSection === 'projects') {
+    if (activeSection === 'about') {
+        targetPosition.set(0, 3, 12)
+        lookAtTarget.set(0, 3, 0)
+    } else if (activeSection === 'projects') {
       targetPosition.set(orbitRadius, 1, 8)
       lookAtTarget.set(orbitRadius, 0, 0)
     } else if (activeSection === 'skills') {
@@ -132,7 +154,7 @@ function AnimatedCamera({ activeSection }) {
 export default function App() {
   const [activeSection, setActiveSection] = useState(null)
   const data = activeSection ? portfolioSections[activeSection] : null;
-  const isScenePaused = activeSection === 'projects' || activeSection === 'skills';
+  const isScenePaused = activeSection === 'about' || activeSection === 'projects' || activeSection === 'skills';
 
   return (
     <>
@@ -140,8 +162,6 @@ export default function App() {
         <div className="header">
           <h1>VIJAY VIPPARTHI</h1>
           <p>Creative Web Developer</p>
-          
-          {/* --- THIS IS THE NEW SECTION WITH THE ICON BUTTONS --- */}
           <div className="social-links">
             <a href="https://www.linkedin.com/in/vijay-vipparthi-dev/" target="_blank" rel="noopener noreferrer" className="icon-button">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M20.5 2h-17A1.5 1.5 0 002 3.5v17A1.5 1.5 0 003.5 22h17a1.5 1.5 0 001.5-1.5v-17A1.5 1.5 0 0020.5 2zM8 19H5v-9h3zM6.5 8.25A1.75 1.75 0 118.25 6.5 1.75 1.75 0 016.5 8.25zM19 19h-3v-4.75c0-1.4-1.1-2.5-2.5-2.5S11 12.85 11 14.25V19h-3v-9h2.9v1.3a3.11 3.11 0 012.6-1.4c2.5 0 4.5 2 4.5 4.5V19z"></path></svg>
@@ -153,16 +173,16 @@ export default function App() {
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M19.35 10.04A7.49 7.49 0 0012 4C9.11 4 6.6 5.64 5.35 8.04A5.994 5.994 0 000 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z"></path></svg>
             </a>
           </div>
-
         </div>
         {data && (
-          <div className="content">
+          <div className="content" style={{ pointerEvents: 'auto' }}>
             <h2>{data.title}</h2>
-            <p>{data.content}</p>
+            <p dangerouslySetInnerHTML={{ __html: data.content }} />
           </div>
         )}
       </div>
       <div className="nav-overlay">
+        <button onClick={() => setActiveSection('about')}>About</button>
         <button onClick={() => setActiveSection('projects')}>Projects</button>
         <button onClick={() => setActiveSection('skills')}>Skills</button>
         <button onClick={() => setActiveSection('contact')}>Contact</button>
@@ -180,20 +200,34 @@ export default function App() {
             isPaused={isScenePaused}
           />
           <Satellite 
-            position={[8, 0, 0]} 
+            position={[0, 3, 6]} 
+            color="mediumpurple" 
+            text="About" 
+            onClick={() => setActiveSection('about')} 
+            isActive={activeSection === 'about'}
+            isPaused={isScenePaused}
+            orbitRadius={6}
+            orbitOffset={Math.PI / 2} // Start at the top
+          />
+          <Satellite 
+            position={[8, -2, 0]} 
             color="orange" 
             text="Projects" 
             onClick={() => setActiveSection('projects')} 
             isActive={activeSection === 'projects'}
             isPaused={isScenePaused}
+            orbitRadius={8}
+            orbitOffset={0} // Start at the right
           />
           <Satellite 
-            position={[-8, 0, 0]} 
+            position={[-8, -2, 0]} 
             color="dodgerblue" 
             text="Skills" 
             onClick={() => setActiveSection('skills')}
             isActive={activeSection === 'skills'}
             isPaused={isScenePaused}
+            orbitRadius={8}
+            orbitOffset={Math.PI} // Start at the left
           />
         </Suspense>
         
