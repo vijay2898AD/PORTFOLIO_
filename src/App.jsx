@@ -3,7 +3,6 @@ import { Canvas, useFrame } from '@react-three/fiber';
 import { Sphere, Html, Stars, Trail, OrbitControls, useProgress } from '@react-three/drei';
 import * as THREE from 'three';
 
-// --- Data for our portfolio sections (UPDATED with full details) ---
 const portfolioSections = {
   about: {
     title: 'About Me',
@@ -67,7 +66,7 @@ const portfolioSections = {
       { name: "LinkedIn", url: "https://www.linkedin.com/in/vijay-vipparthi-dev/" },
       { name: "GitHub", url: "https://github.com/vijay2898AD" }
     ]
-    } // Can be expanded later
+    } 
   },
 };
 
