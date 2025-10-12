@@ -275,35 +275,6 @@ body {
 
 /* Mobile Adjustments (Portrait & Landscape phones) */
 @media (max-width: 767px) {
-    /*.text-overlay {
-        padding: 20px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: flex-start;
-        gap: 25px;
-    }
-
-    .header, .nav-overlay, .content {
-        position: static !important;
-        width: 100%;
-        text-align: center;
-        top: auto; left: auto; bottom: auto; right: auto;
-    }
-
-    .header {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 10px;
-    }
-    .header h1 {
-        font-size: 2.2rem;
-        letter-spacing: -2px;
-    }
-    .header p {
-        font-size: 0.9rem;
-    }*/
     .text-overlay {
         padding: 30px;
     }
