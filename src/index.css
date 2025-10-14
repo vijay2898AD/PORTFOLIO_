@@ -51,7 +51,7 @@ body {
 .loading-screen__title { font-size: 2.8rem; letter-spacing: -2px; font-weight: 700; color: #e0e0e0; }
 .loading-screen__progress { font-size: 1.5rem; color: #a0a0a0; margin-top: 25px; letter-spacing: 2px; }
 
-/* --- Main Layout Overlays --- */
+
 .text-overlay {
     position: absolute; top: 0; left: 0; width: 100%; height: 100%;
     padding: 40px; pointer-events: none; z-index: 1;
@@ -73,7 +73,7 @@ body {
 }
 .nav-overlay button:hover { background: white; color: black; }
 
-/* --- Social Icons --- */
+
 .social-links { display: flex; gap: 15px; margin-top: 20px; }
 .icon-button {
     display: flex; align-items: center; justify-content: center;
