@@ -253,15 +253,17 @@ function DetailPage({ section, onScrollUp }) {
 
         const handleTouchMove = (e) => {
             if (scrollRef.current.scrollTop === 0) {
-                // If we are at the top, prevent default scroll, allowing our swipe-up detection to work.
-                e.preventDefault();
+                const currentY = e.touches[0].clientY;
+                if (currentY > touchStartY) {
+                    e.preventDefault();
+                }
             }
         };
 
         const handleTouchEnd = (e) => {
             const touchEndY = e.changedTouches[0].clientY;
             // Detect a significant swipe UP (touchEndY is less than touchStartY)
-            if (scrollRef.current && scrollRef.current.scrollTop === 0 && touchStartY - touchEndY > 50) {
+            if (scrollRef.current && scrollRef.current.scrollTop === 0 && touchEndY - touchStartY > 50) {
                 onScrollUp();
             }
         };
@@ -386,7 +388,7 @@ export default function App() {
         const handleTouchMove = (e) => {
             // Check for potential downward swipe only.
             const currentY = e.touches[0].clientY;
-            if (currentY > touchStartY.current) {
+            if (currentY < touchStartY.current) {
                 // If the user is trying to swipe down, block default behavior
                 e.preventDefault(); 
             }
@@ -398,7 +400,7 @@ export default function App() {
             const touchEndY = e.changedTouches[0].clientY;
             // Check for a significant swipe DOWN (touchEndY is greater than touchStartY)
             // A swipe DOWN on the screen corresponds to a scroll-down action.
-            if (touchEndY - touchStartY.current > 50) { // 50px threshold for a swipe
+            if (touchStartY.current - touchEndY > 50) { // 50px threshold for a swipe
                 isTransitioning = true;
                 setViewMode('2d');
             }
