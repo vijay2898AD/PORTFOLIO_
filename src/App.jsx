@@ -247,8 +247,15 @@ function DetailPage({ section, onScrollUp }) {
 
         let touchStartY = 0;
         const handleTouchStart = (e) => {
-            e.stopPropagation();
+            //e.stopPropagation();
             touchStartY = e.touches[0].clientY;
+        };
+
+        const handleTouchMove = (e) => {
+            if (scrollRef.current.scrollTop === 0) {
+                // If we are at the top, prevent default scroll, allowing our swipe-up detection to work.
+                e.preventDefault();
+            }
         };
 
         const handleTouchEnd = (e) => {
@@ -263,12 +270,14 @@ function DetailPage({ section, onScrollUp }) {
         if (ref) {
           ref.addEventListener('wheel', handleWheel);
           ref.addEventListener('touchstart', handleTouchStart);
+          ref.addEventListener('touchmove', handleTouchMove, { passive: false });
           ref.addEventListener('touchend', handleTouchEnd);
         }
         return () => {
             if (ref) {
               ref.removeEventListener('wheel', handleWheel);
               ref.removeEventListener('touchstart', handleTouchStart);
+              ref.removeEventListener('touchmove', handleTouchMove);
               ref.removeEventListener('touchend', handleTouchEnd);
             }
         };
@@ -374,6 +383,15 @@ export default function App() {
             touchStartY.current = e.touches[0].clientY;
         };
 
+        const handleTouchMove = (e) => {
+            // Check for potential downward swipe only.
+            const currentY = e.touches[0].clientY;
+            if (currentY > touchStartY.current) {
+                // If the user is trying to swipe down, block default behavior
+                e.preventDefault(); 
+            }
+        };
+
         const handleTouchEnd = (e) => {
             if (isTransitioning) return;
 
@@ -388,10 +406,12 @@ export default function App() {
 
         view3dElement.addEventListener('wheel', handleWheel);
         view3dElement.addEventListener('touchstart', handleTouchStart);
+        view3dElement.addEventListener('touchmove', handleTouchMove, { passive: false });
         view3dElement.addEventListener('touchend', handleTouchEnd);
         return () => {
           view3dElement.removeEventListener('wheel', handleWheel);
           view3dElement.removeEventListener('touchstart', handleTouchStart);
+          view3dElement.removeEventListener('touchmove', handleTouchMove);
           view3dElement.removeEventListener('touchend', handleTouchEnd);
         };
     }, [activeSection, viewMode]);
