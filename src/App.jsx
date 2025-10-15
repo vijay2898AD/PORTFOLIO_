@@ -247,6 +247,7 @@ function DetailPage({ section, onScrollUp }) {
 
         let touchStartY = 0;
         const handleTouchStart = (e) => {
+            e.stopPropagation();
             touchStartY = e.touches[0].clientY;
         };
 
@@ -385,13 +386,13 @@ export default function App() {
             }
         };
 
-        window.addEventListener('wheel', handleWheel);
-        window.addEventListener('touchstart', handleTouchStart);
-        window.addEventListener('touchend', handleTouchEnd);
+        view3dElement.addEventListener('wheel', handleWheel);
+        view3dElement.addEventListener('touchstart', handleTouchStart);
+        view3dElement.addEventListener('touchend', handleTouchEnd);
         return () => {
-          window.removeEventListener('wheel', handleWheel);
-          window.removeEventListener('touchstart', handleTouchStart);
-          window.removeEventListener('touchend', handleTouchEnd);
+          view3dElement.removeEventListener('wheel', handleWheel);
+          view3dElement.removeEventListener('touchstart', handleTouchStart);
+          view3dElement.removeEventListener('touchend', handleTouchEnd);
         };
     }, [activeSection, viewMode]);
 
@@ -401,7 +402,7 @@ export default function App() {
         <>
             <LoadingScreen onLoaded={() => setIsLoaded(true)} />
             
-            <div className={`view-3d-container ${viewMode === '2d' ? 'hidden' : ''}`}>
+            <div ref={view3dRef} className={`view-3d-container ${viewMode === '2d' ? 'hidden' : ''}`}>
                 {isLoaded && (
                     <div className="app-content-visible">
                         <div className="text-overlay">
