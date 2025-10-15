@@ -333,6 +333,7 @@ export default function App() {
     const [isLoaded, setIsLoaded] = useState(false);
     const [viewMode, setViewMode] = useState('3d');
     const coreRef = useRef();
+    const touchStartY = useRef(0);
 
     useEffect(() => {
         if (viewMode !== '3d' || !activeSection) return;
@@ -343,8 +344,31 @@ export default function App() {
                 setViewMode('2d');
             }
         };
+
+        const handleTouchStart = (e) => {
+            touchStartY.current = e.touches[0].clientY;
+        };
+
+        const handleTouchEnd = (e) => {
+            if (isTransitioning) return;
+
+            const touchEndY = e.changedTouches[0].clientY;
+            // Check for a significant swipe DOWN (touchEndY is greater than touchStartY)
+            // A swipe DOWN on the screen corresponds to a scroll-down action.
+            if (touchEndY - touchStartY.current > 50) { // 50px threshold for a swipe
+                isTransitioning = true;
+                setViewMode('2d');
+            }
+        };
+
         window.addEventListener('wheel', handleWheel);
-        return () => window.removeEventListener('wheel', handleWheel);
+        window.addEventListener('touchstart', handleTouchStart);
+        window.addEventListener('touchend', handleTouchEnd);
+        return () => {
+          window.removeEventListener('wheel', handleWheel);
+          window.removeEventListener('touchstart', handleTouchStart);
+          window.removeEventListener('touchend', handleTouchEnd);
+        };
     }, [activeSection, viewMode]);
 
     const isScenePaused = ['about', 'projects', 'skills'].includes(activeSection) || viewMode === '2d';
