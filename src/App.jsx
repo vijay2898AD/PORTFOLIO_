@@ -234,7 +234,7 @@ function MouseReactiveStars() {
     );
 }
 
-// --- NEW: Universal 2D Detail Page Component ---
+//  Universal 2D Detail Page Component 
 function DetailPage({ section, onScrollUp }) {
     const scrollRef = useRef();
 
@@ -244,10 +244,32 @@ function DetailPage({ section, onScrollUp }) {
                 onScrollUp();
             }
         };
+
+        let touchStartY = 0;
+        const handleTouchStart = (e) => {
+            touchStartY = e.touches[0].clientY;
+        };
+
+        const handleTouchEnd = (e) => {
+            const touchEndY = e.changedTouches[0].clientY;
+            // Detect a significant swipe UP (touchEndY is less than touchStartY)
+            if (scrollRef.current && scrollRef.current.scrollTop === 0 && touchStartY - touchEndY > 50) {
+                onScrollUp();
+            }
+        };
+
         const ref = scrollRef.current;
-        if (ref) ref.addEventListener('wheel', handleWheel);
+        if (ref) {
+          ref.addEventListener('wheel', handleWheel);
+          ref.addEventListener('touchstart', handleTouchStart);
+          ref.addEventListener('touchend', handleTouchEnd);
+        }
         return () => {
-            if (ref) ref.removeEventListener('wheel', handleWheel);
+            if (ref) {
+              ref.removeEventListener('wheel', handleWheel);
+              ref.removeEventListener('touchstart', handleTouchStart);
+              ref.removeEventListener('touchend', handleTouchEnd);
+            }
         };
     }, [onScrollUp]);
     
@@ -333,10 +355,12 @@ export default function App() {
     const [isLoaded, setIsLoaded] = useState(false);
     const [viewMode, setViewMode] = useState('3d');
     const coreRef = useRef();
+    const view3dRef = useRef();
     const touchStartY = useRef(0);
 
     useEffect(() => {
-        if (viewMode !== '3d' || !activeSection) return;
+        const view3dElement = view3dRef.current;
+        if (!view3dElement || viewMode !== '3d' || !activeSection) return;
         let isTransitioning = false;
         const handleWheel = (e) => {
             if (e.deltaY > 5 && !isTransitioning) {
