@@ -346,6 +346,11 @@ body {
 
 /* --- Very Small Mobile Adjustments --- */
 @media (max-width: 480px) {
+    
+    .view-2d-container {
+        height: 100vh;
+        overflow-y: auto; /* Redundant, but ensures explicit scrolling in this context */
+    }
     .text-overlay {
         padding: 15px;
         gap: 20px;
