@@ -331,7 +331,7 @@ function DetailPage({ section, onScrollUp }) {
         };
     }, [onScrollUp]);
     
-// ... (rest of DetailPage content remains the same)
+
     if (!section || !section.details) return null;
 
     const { title, details } = section;
