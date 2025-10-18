@@ -33,9 +33,23 @@ const portfolioSections = {
           codeUrl: "https://github.com/vijay2898AD/PX-to-REM-converter"
         },
         {
+          title: "Meme Generator",
+          description: "An interactive and user-friendly front-end application that allows users to create custom memes by uploading an image and adding customizable text. Built with React.js, it leverages the HTML Canvas API to handle all image processing and text manipulation directly in the browser, ensuring a fast and responsive experience. Implemented key features including real-time top/bottom text updates, font size adjustment, and drag-and-drop text positioning. Styled with custom CSS to create a clean, minimalist, and fully responsive design. Users can download their final creation as a high-quality PNG file with a single click.",
+          tech: ["React.js", "CSS3", "JavaScript (ES6+)", "HTML5 Canvas", "Git & GitHub", "Vercel", ],
+          liveUrl: "https://meme-generator-lovat-rho.vercel.app/",
+          codeUrl: "https://github.com/vijay2898AD/MEME-Generator"
+        },
+        {
+          title: "Old Personal Portfolio",
+          description: "A sleek and modern personal portfolio website showcasing a final-year B-Tech Computer Science student's skills, projects, and professional aspirations. Designed to introduce the individual, highlight strong problem-solving and analytical skills, and demonstrate a passion for contributing to impactful tech projects. The site provides a comprehensive overview of the student's background, complemented by excellent teamwork and communication abilities. Featuring a dark mode toggle for enhanced user experience and a downloadable resume. Built with front-end technologies to deliver a responsive and engaging user interface.",
+          tech: ["HTML5", "CSS3", "JavaScript (ES6+)", "React.js", "Responsive Design", "Git & GitHub", "GitHub Pages", ],
+          liveUrl: "https://vijay2898ad.github.io/portfolio/",
+          codeUrl: "https://github.com/vijay2898AD/portfolio"
+        },
+        {
           title: "Hospital Management System",
           description: "A full-stack web application developed from scratch to manage patient data, doctor records, and appointment scheduling with role-based dashboards for Admins and Users.Front-End: Engineered a responsive and interactive user interface using React.js, solving the challenge of creating a dynamic doctor availability calendar and role-based dashboards (Admin/User). Back-End: Created a secure RESTful API using Node.js and Express.js to handle user authentication (for both patients and admins), appointment scheduling, and management of doctor records. Database: Designed and managed the application's database schema in MongoDB for efficiently storing and retrieving patient, doctor, and appointment data. Implemented Mongoose for schema validation and data modeling.",
-          tech: ["React.js", "Node.js", "Express.js", "MongoDB", "JavaScript (ES6+)", "Git & GitHub", "Netlify", ],
+          tech: ["React.js", "Node.js", "Express.js", "MongoDB", "JavaScript (ES6+)", "Git & GitHub", "Vercel", ],
           liveUrl: "https://hospital-management-peach-xi.vercel.app/",
           codeUrl: "https://github.com/vijay2898AD/hospital-management"
         }
