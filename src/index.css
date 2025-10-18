@@ -258,7 +258,7 @@ body {
 
 @media (max-width: 1024px) {
     .text-overlay {
-        padding: 30px; /* Reduced padding */
+        padding: 30px; 
     }
     .header h1 {
         font-size: 2.8rem;
@@ -267,14 +267,14 @@ body {
         font-size: 1rem;
     }
     .content {
-        max-width: 300px; /* Slightly reduced max-width */
+        max-width: 300px;
     }
     .nav-overlay button {
-        padding: 8px 15px; /* Smaller buttons */
+        padding: 8px 15px;
         font-size: 0.9rem;
     }
     .detail-page-content {
-        padding: 100px 30px; /* Reduced padding for detail pages */
+        padding: 100px 30px; 
     }
     .detail-title {
         font-size: 4rem;
@@ -284,7 +284,7 @@ body {
         max-width: 600px;
     }
     .projects-list {
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Adjust min-width */
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
         gap: 30px;
     }
     .skills-grid {
@@ -297,7 +297,7 @@ body {
     
     .view-2d-container {
         height: 100vh;
-        overflow-y: auto; /* Redundant, but ensures explicit scrolling in this context */
+        overflow-y: auto; 
     }
     
     .text-overlay {
@@ -311,10 +311,10 @@ body {
         font-size: 1rem;
     }
     .content {
-        max-width: 300px; /* Slightly reduced max-width */
+        max-width: 300px; 
     }
     .nav-overlay button {
-        padding: 8px 15px; /* Smaller buttons */
+        padding: 8px 15px;
         font-size: 0.9rem;
     }
 
@@ -369,7 +369,7 @@ body {
     
     .view-2d-container {
         height: 100vh;
-        overflow-y: auto; /* Redundant, but ensures explicit scrolling in this context */
+        overflow-y: auto; 
     }
     .text-overlay {
         padding: 15px;
