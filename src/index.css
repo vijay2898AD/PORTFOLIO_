@@ -105,13 +105,14 @@ body {
 
 /* --- Detail Page General Styles --- */
 .detail-page { width: 100%; height: 100%; overflow-y: auto; background: #111; color: #fff; -webkit-overflow-scrolling: touch; scrollbar-width: thin; scrollbar-color: #a0a0a0 #111;}
-.detail-page-content { max-width: 900px; margin: 0 auto; padding: 120px 40px; }
+.detail-page-content { max-width: 900px; margin: 0 auto; padding: 120px 40px; perspective: 500px; }
 .detail-title {
     font-size: 5rem; letter-spacing: -3px; font-weight: 700;
     border-bottom: 1px solid rgba(255, 255, 255, 0.2);
     padding-bottom: 20px; margin-bottom: 30px;
+    transition: color 0.4s, transform 0.4s ease;
 }
-.detail-intro { font-size: 1.2rem; line-height: 1.8; color: #a0a0a0; max-width: 700px; margin-bottom: 60px; transition: color 0.4s, transform 0.4s ease; }
+.detail-intro { font-size: 1.2rem; line-height: 1.8; color: #a0a0a0; max-width: 700px; margin-bottom: 60px; transition: 0.4s, transform 0.4s ease; }
 .scroll-indicator-top {
     position: fixed; top: 0; left: 0; width: 100%;
     text-align: center; padding: 0px; background: rgba(0,0,0,0.5);
@@ -153,6 +154,7 @@ body {
 .projects-list {
     display: grid;
     gap: 40px;
+    perspective: 500px;
 }
 .project-card {
     background: rgba(255, 255, 255, 0.05);
@@ -163,7 +165,7 @@ body {
 }
 .project-card:hover {
     background: rgba(255, 255, 255, 0.1);
-    transform: translateY(-10px);
+    transform: translate3d(0,0,10px);
 }
 .project-card h3 {
     margin-top: 0;
@@ -200,10 +202,10 @@ body {
 }
 
 /* --- Skills Page Specific Styles --- */
-.skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; }
+.skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px;  }
 .skill-category h2 { font-size: 1.5rem; font-weight: 600; color: #00c6f7; margin-bottom: 15px; }
-.skill-category ul { list-style: none; padding: 0; margin: 0; }
-.skill-category li { font-size: 1.1rem; margin-bottom: 10px; color: #c0c0c0; transition: color 0.4s, transform 0.4s ease; }
+.skill-category ul { list-style: none; padding: 0; margin: 0; perspective: 500px; }
+.skill-category li { font-size: 1.1rem; margin-bottom: 10px; color: #c0c0c0; transition: color 0.4s, transform 0.4s ease;  }
 .skill-category li::before {
     content: "•";
     color: #00c6f7;
@@ -213,7 +215,7 @@ body {
 }
 .skill-category li:hover {
     color: #fff;
-    transform: translateX(7px);
+    transform: translate3d(0,0,12px);
 }
 
 /* --- Contact Page Specific Styles --- */
@@ -249,10 +251,11 @@ body {
     text-decoration: none;
     margin: 0;
     transition: color 0.3s, transform 0.3s;
-
+    display: inline-block;
 }
 
-.contact-item a:hover {
+.contact-item a:hover,
+.contact-item p:hover {
     color: #fff;
     transform: translateX(10px);
 }
