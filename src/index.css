@@ -111,7 +111,7 @@ body {
     border-bottom: 1px solid rgba(255, 255, 255, 0.2);
     padding-bottom: 20px; margin-bottom: 30px;
 }
-.detail-intro { font-size: 1.2rem; line-height: 1.8; color: #a0a0a0; max-width: 700px; margin-bottom: 60px; }
+.detail-intro { font-size: 1.2rem; line-height: 1.8; color: #a0a0a0; max-width: 700px; margin-bottom: 60px; transition: color 0.4s, transform 0.4s ease; }
 .scroll-indicator-top {
     position: fixed; top: 0; left: 0; width: 100%;
     text-align: center; padding: 0px; background: rgba(0,0,0,0.5);
@@ -137,9 +137,16 @@ body {
   background-color: #fff; 
 }
 
+.detail-intro:hover,
+.about-text:hover {
+    color: #fff;
+    transform: translateX(10px);
+}
+
 /* --- About Page Specific Styles --- */
 .about-text {
     font-size: 1.2rem; line-height: 1.8; color: #a0a0a0;
+    transition: color 0.4s, transform 0.4s ease;
 }
 
 /* --- Projects Page Specific Styles --- */
@@ -156,7 +163,7 @@ body {
 }
 .project-card:hover {
     background: rgba(255, 255, 255, 0.1);
-    transform: translateY(-8px);
+    transform: translateY(-10px);
 }
 .project-card h3 {
     margin-top: 0;
