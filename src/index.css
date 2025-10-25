@@ -119,6 +119,7 @@ body {
     text-align: center; padding: 0px; background: rgba(0,0,0,0.5);
     color: #a0a0a0; font-size: 1.1rem;
     height: 60px;
+    z-index: 10;
 }
 
 .detail-page::-webkit-scrollbar {
