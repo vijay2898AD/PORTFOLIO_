@@ -286,6 +286,27 @@ body {
     transform: translateX(10px);
 }
 
+.motion-toggle-button,
+.gyro-permission-button {
+    backdrop-filter: blur(10px);
+    transform: scale ease-in-out 0.4s, background 0.4s, color 0.4s;
+}
+
+.motion-toggle-button:hover,
+.gyro-permission-button:hover {
+    cursor: pointer;
+    transform: scale(1.05);
+}
+
+.motion-toggle-button:hover {
+    background: rgb(255, 255, 255) !important; 
+    color: black !important;
+}
+.gyro-permission-button:hover {
+    background: rgba(255, 54, 54, 0.415) !important; 
+    color: white !important;
+}
+
 @media (max-width: 1024px) {
     .text-overlay {
         padding: 30px; 

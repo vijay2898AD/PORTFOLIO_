@@ -540,6 +540,7 @@ export default function App() {
                         
                         <div style={{ position: 'fixed', bottom: '20px', left: '20px', zIndex: 10, pointerEvents: 'auto' }}>
                             <button 
+                                className="motion-toggle-button"
                                 onClick={toggleMotion} 
                                 style={{
                                     background: isMotionReduced ? 'gray' : 'rgba(135, 206, 235, 0.2)',
@@ -560,6 +561,7 @@ export default function App() {
                             
                             {isMobile && !gyroPermissionGranted && (
                                 <button 
+                                    className="gyro-permission-button"
                                     onClick={requestGyroPermission}
                                     style={{
                                         background: 'rgba(255, 145, 0, 0.2)',
