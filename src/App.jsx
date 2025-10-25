@@ -62,9 +62,9 @@ const portfolioSections = {
     details: {
       intro: "With a strong foundation in modern web technologies, I specialize in creating performant and visually engaging user experiences.",
       categories: [
-        { title: 'Frontend', skills: ['React.js', 'JavaScript (ES6+)', 'TypeScript', 'HTML5', 'CSS3', 'Tailwind CSS'] },
-        { title: 'Backend & Database', skills: ['Node.js', 'Express.js', 'MongoDB', 'API Integration'] },
+        { title: 'Frontend', skills: ['React.js', 'JavaScript (ES6+)', 'TypeScript', 'HTML5', 'CSS3', 'Tailwind CSS', 'Three.js'] },
         { title: 'Tools & Concepts', skills: ['Git', 'GitHub', 'npm', 'VS Code', 'vite', 'vercel'] },
+        { title: 'Backend & Database', skills: ['Node.js', 'Express.js', 'MongoDB', 'API Integration'] },
         { title: 'Design & Concept', skills: ['GLSL Shaders', 'UI/UX Principles', 'Figma (Prototyping)', 'Blender (Basic Modeling)', 'Component-Based Architecture', 'State Management'] }
       ]
     }
