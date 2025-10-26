@@ -33,6 +33,13 @@ const portfolioSections = {
           codeUrl: "https://github.com/vijay2898AD/PX-to-REM-converter"
         },
         {
+          "title": "Green Candle Trade",
+          "description": "A responsive paper trading simulator for the Indian stock market (NSE), built as a single-page application. Users start with a mock ₹1 Crore portfolio and can buy/sell from a list of 40 real-world NSE stocks. The app was engineered to run completely offline by using a local JSON file as a mock API, removing external dependencies. State is managed globally using Zustand, persisting all holdings, transactions, and cash balance to localStorage. Features a responsive header, interactive modals for buying stock and managing cash (add/withdraw), and a dynamic portfolio page with a Recharts line graph to visualize cash history over time. Styled entirely with Tailwind CSS for a modern, responsive, high-contrast UI with smooth hover effects and transitions.",
+          "tech": ["React.js", "TypeScript", "Tailwind CSS", "Zustand", "Recharts", "React Router"],
+          "liveUrl": "https://green-candle-trade.vercel.app/",
+          "codeUrl": "https://github.com/vijay2898AD/Green-Candle-Trade"
+        },
+        {
           title: "Meme Generator",
           description: "An interactive and user-friendly front-end application that allows users to create custom memes by uploading an image and adding customizable text. Built with React.js, it leverages the HTML Canvas API to handle all image processing and text manipulation directly in the browser, ensuring a fast and responsive experience. Implemented key features including real-time top/bottom text updates, font size adjustment, and drag-and-drop text positioning. Styled with custom CSS to create a clean, minimalist, and fully responsive design. Users can download their final creation as a high-quality PNG file with a single click.",
           tech: ["React.js", "CSS3", "JavaScript (ES6+)", "HTML5 Canvas", "Git & GitHub", "Vercel", ],
