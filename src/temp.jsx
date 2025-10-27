@@ -386,10 +386,9 @@ export default function App() {
         };
 
         const handleTouchMove = (e) => {
-            // Check for potential downward swipe only.
+            
             const currentY = e.touches[0].clientY;
             if (currentY < touchStartY.current) {
-                // If the user is trying to swipe down, block default behavior
                 e.preventDefault(); 
             }
         };
@@ -398,9 +397,7 @@ export default function App() {
             if (isTransitioning) return;
 
             const touchEndY = e.changedTouches[0].clientY;
-            // Check for a significant swipe DOWN (touchEndY is greater than touchStartY)
-            // A swipe DOWN on the screen corresponds to a scroll-down action.
-            if (touchStartY.current - touchEndY > 50) { // 50px threshold for a swipe
+            if (touchStartY.current - touchEndY > 50) {
                 isTransitioning = true;
                 setViewMode('2d');
             }

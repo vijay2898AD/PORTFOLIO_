@@ -1,5 +1,5 @@
 import { Suspense, useRef, useState, useEffect, forwardRef, useCallback } from 'react';
-import { Canvas, useFrame, useThree } from '@react-three/fiber'; // Added useThree
+import { Canvas, useFrame, useThree } from '@react-three/fiber'; 
 import { Sphere, Html, Stars, Trail, OrbitControls, useProgress } from '@react-three/drei';
 import * as THREE from 'three';
 
@@ -134,12 +134,11 @@ function LoadingScreen({ onLoaded }) {
 }
 
 // --- Main 3D Model (Generative Art Core) ---
-// MODIFIED: Accepts isMotionReduced
 const GenerativeCore = forwardRef(({ onClick, isPaused, isMotionReduced }, ref) => {
   const [hovered, setHovered] = useState(false);
   useFrame((state, delta) => {
     if (!ref.current) return;
-    // PAUSE LOGIC: Paused if a section is active OR motion is reduced
+    // PAUSE LOGIC
     if (!isPaused && !isMotionReduced) { 
       ref.current.rotation.y += delta * 0.1;
       ref.current.rotation.x += delta * 0.05;
@@ -156,7 +155,6 @@ const GenerativeCore = forwardRef(({ onClick, isPaused, isMotionReduced }, ref) 
 });
 
 // --- Satellite Objects with Trails ---
-// MODIFIED: Accepts isMotionReduced
 function Satellite({ occluderRef, position, color, text, onClick, isActive, isPaused, isMotionReduced, orbitRadius = 8, orbitOffset = 0 }) {
     const groupRef = useRef();
     const htmlRef = useRef();
@@ -165,7 +163,7 @@ function Satellite({ occluderRef, position, color, text, onClick, isActive, isPa
     useFrame((state) => {
         if (!groupRef.current) return;
         const homePosition = new THREE.Vector3(...position);
-        // PAUSE LOGIC: Paused if a section is active OR motion is reduced
+        // PAUSE LOGIC
         if (!isPaused && !isMotionReduced) {
             const t = state.clock.getElapsedTime() * 0.5;
             groupRef.current.position.x = orbitRadius * Math.cos(t + orbitOffset);
@@ -174,7 +172,6 @@ function Satellite({ occluderRef, position, color, text, onClick, isActive, isPa
         } else if (isActive) {
             groupRef.current.position.lerp(homePosition, 0.1);
         }
-// ... (rest of Satellite useFrame logic remains the same)
         const targetScale = isActive ? 1.2 : 1.0;
         groupRef.current.scale.lerp(new THREE.Vector3(targetScale, targetScale, targetScale), 0.1);
         if (htmlRef.current) {
@@ -187,7 +184,7 @@ function Satellite({ occluderRef, position, color, text, onClick, isActive, isPa
     });
 
     return (
-// ... (Satellite JSX remains the same)
+
         <group ref={groupRef} position={position}>
             <Trail
                 width={2.5}
@@ -217,9 +214,8 @@ function Satellite({ occluderRef, position, color, text, onClick, isActive, isPa
     );
 }
 
-// --- Animated Camera Controller (Remains the same) ---
+// --- Animated Camera Controller
 function AnimatedCamera({ activeSection }) {
-// ... (AnimatedCamera content remains the same)
     useFrame((state) => {
         if (activeSection) {
             const targetPosition = new THREE.Vector3();
@@ -246,9 +242,8 @@ function AnimatedCamera({ activeSection }) {
     return null;
 }
 
-// --- Mouse-Reactive Background Stars (Remains the same) ---
+// --- Mouse-Reactive Background Stars 
 function MouseReactiveStars() {
-// ... (MouseReactiveStars content remains the same)
     const starsRef = useRef();
     useFrame((state) => {
         if (starsRef.current) {
@@ -263,18 +258,17 @@ function MouseReactiveStars() {
     );
 }
 
-// --- NEW FEATURE 10: Gyroscope Camera Control Component ---
+// ---  Gyroscope Camera Control Component ---
 function GyroCameraControl({ isEnabled }) {
   const { camera } = useThree();
   const targetRotation = useRef(new THREE.Euler(0, 0, 0));
-  const MAX_TILT = 0.05; // Maximum angle of tilt
+  const MAX_TILT = 0.05; 
   const TILT_SMOOTHNESS = 0.05;
 
   useEffect(() => {
     if (!isEnabled) return;
 
     const handleOrientation = (event) => {
-      // Gamma (side-to-side) controls Y-rotation, Beta (front-to-back) controls X-rotation
       const tiltX = (event.beta / 90) * MAX_TILT; 
       const tiltY = (event.gamma / 90) * MAX_TILT; 
 
@@ -291,7 +285,6 @@ function GyroCameraControl({ isEnabled }) {
 
   useFrame(() => {
     if (isEnabled) {
-      // Smoothly interpolate the camera's rotation towards the device's tilt
       camera.rotation.x = THREE.MathUtils.lerp(camera.rotation.x, targetRotation.current.x, TILT_SMOOTHNESS);
       camera.rotation.y = THREE.MathUtils.lerp(camera.rotation.y, targetRotation.current.y, TILT_SMOOTHNESS);
     }
@@ -300,9 +293,8 @@ function GyroCameraControl({ isEnabled }) {
   return null;
 }
 
-//  Universal 2D Detail Page Component (Remains the same)
+//  Universal 2D Detail Page Component
 function DetailPage({ section, onScrollUp }) {
-// ... (DetailPage content remains the same)
     const scrollRef = useRef();
 
     useEffect(() => {
@@ -314,7 +306,6 @@ function DetailPage({ section, onScrollUp }) {
 
         let touchStartY = 0;
         const handleTouchStart = (e) => {
-            //e.stopPropagation();
             touchStartY = e.touches[0].clientY;
         };
 
@@ -329,7 +320,7 @@ function DetailPage({ section, onScrollUp }) {
 
         const handleTouchEnd = (e) => {
             const touchEndY = e.changedTouches[0].clientY;
-            // Detect a significant swipe UP (touchEndY is less than touchStartY)
+
             if (scrollRef.current && scrollRef.current.scrollTop === 0 && touchEndY - touchStartY > 50) {
                 onScrollUp();
             }
@@ -437,17 +428,14 @@ export default function App() {
     const view3dRef = useRef();
     const touchStartY = useRef(0);
 
-    // *** NEW FEATURE 4 & 10 STATES ***
     const [isMotionReduced, setIsMotionReduced] = useState(false);
     const [gyroPermissionGranted, setGyroPermissionGranted] = useState(false);
     const isMobile = window.innerWidth <= 767;
 
-    // Toggle function for the Reduced Motion feature
     const toggleMotion = useCallback(() => {
         setIsMotionReduced(prev => !prev);
     }, []);
 
-    // Function to request Gyroscope permission (needed for iOS)
     const requestGyroPermission = () => {
         if (typeof DeviceOrientationEvent.requestPermission === 'function') {
             DeviceOrientationEvent.requestPermission()
@@ -458,7 +446,6 @@ export default function App() {
                 })
                 .catch(err => console.error("Gyroscope permission failed:", err));
         } else {
-            // Assume permission is granted on Android/Desktop where not required
             setGyroPermissionGranted(true);
         }
     };
@@ -480,10 +467,8 @@ export default function App() {
         };
 
         const handleTouchMove = (e) => {
-            // Check for potential downward swipe only.
             const currentY = e.touches[0].clientY;
             if (currentY > touchStartY.current) {
-                // If the user is trying to swipe down, block default behavior
                 e.preventDefault(); 
             }
         };
@@ -492,8 +477,8 @@ export default function App() {
             if (isTransitioning) return;
 
             const touchEndY = e.changedTouches[0].clientY;
-            // Check for a significant swipe DOWN (touchEndY is greater than touchStartY)
-            if (touchEndY - touchStartY.current > 50) { // 50px threshold for a swipe
+        
+            if (touchEndY - touchStartY.current > 50) { 
                 isTransitioning = true;
                 setViewMode('2d');
             }
@@ -511,7 +496,6 @@ export default function App() {
         };
     }, [activeSection, viewMode]);
 
-    // Paused if a section is active OR motion is reduced
     const isScenePaused = ['about', 'projects', 'skills'].includes(activeSection) || viewMode === '2d' || isMotionReduced; 
 
     return (
