@@ -57,7 +57,7 @@ const portfolioSections = {
           title: "Hospital Management System",
           description: "A full-stack web application developed from scratch to manage patient data, doctor records, and appointment scheduling with role-based dashboards for Admins and Users.Front-End: Engineered a responsive and interactive user interface using React.js, solving the challenge of creating a dynamic doctor availability calendar and role-based dashboards (Admin/User). Back-End: Created a secure RESTful API using Node.js and Express.js to handle user authentication (for both patients and admins), appointment scheduling, and management of doctor records. Database: Designed and managed the application's database schema in MongoDB for efficiently storing and retrieving patient, doctor, and appointment data. Implemented Mongoose for schema validation and data modeling.",
           tech: ["React.js", "Node.js", "Express.js", "MongoDB", "JavaScript (ES6+)", "Git & GitHub", "Vercel", ],
-          liveUrl: "https://hospital-management-peach-xi.vercel.app/",
+          liveUrl: "https://hospital-management-ip1ys74ym-vijay2898ads-projects.vercel.app/",
           codeUrl: "https://github.com/vijay2898AD/hospital-management"
         }
       ]
